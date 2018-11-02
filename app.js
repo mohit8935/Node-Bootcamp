@@ -1,11 +1,29 @@
-var express = require("express")
-var app =  express();
-var bodyParser = require("body-parser")
+var express     = require("express"),
+    app         =  express(),
+    mongoose    = require('mongoose'),
+    bodyParser  = require("body-parser")
+
+mongoose.connect('mongodb://localhost/campground')
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+});
+
+// NEW SCHEMA
+
+var campgroundsSchema = new mongoose.Schema({
+    name: String,
+    image: String
+});
+
+var Campground = mongoose.model("Campground",campgroundsSchema);
+
+
+
 const port = 3000
-var campgrounds = [
-    {name: "James Bond", image: "https://pixabay.com/get/e834b5062cf4033ed1584d05fb1d4e97e07ee3d21cac104491f1c078a5eeb5b0_340.jpg"},
-    {name: "Granite Hill", image: "https://pixabay.com/get/e136b80728f31c22d2524518b7444795ea76e5d004b0144594f1c07ba4edbd_340.jpg"}
-]
+
 // using bodyparser with Express
 app.use(bodyParser.urlencoded({extended: true}))
 app.set("view engine", "ejs");
@@ -13,8 +31,15 @@ app.get("/", function(req,res){
     res.render("landing")
 });
 app.get("/campgrounds", function(req,res){
+   //get all campgrounds from db
+   Campground.find({}, function(err,allcampgrounds){
+    if (err){
+        console.log(err)
+    }else {
+        res.render("campgrounds", {campgrounds:allcampgrounds});
+    }
+   }); 
     
-    res.render("campgrounds", {campgrounds:campgrounds});
 
 });
 app.listen(port, function(){
@@ -29,9 +54,15 @@ app.post("/campgrounds", function(req,res){
 
     var name =  req.body.name;
     var image = req.body.image;
-    var newCampground = {name: name, image: image};
-    campgrounds.push(newCampground);
-    res.redirect("/campgrounds");
+    var newCampground = new Campground({name: name, image: image});
+    Campground.create(newCampground, function(err, newlycreated){
+        if(err){
+            console.log(err)
+        } else {
+            res.redirect("/campgrounds");
+        }
+    });
+    
     // adding data to campgrounds array
     // redirecting back to campgrounds.page
 });
