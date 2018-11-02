@@ -18,6 +18,7 @@
   "homepage": "https://github.com/mohit8935/Node-Bootcamp#readme",
   "dependencies": {
     "ejs": "^2.6.1",
+    "eslint": "^5.8.0",
     "express": "^4.16.4"
   }
 }
