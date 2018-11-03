@@ -53,7 +53,7 @@ function seedDB(){
                                      console.log("Created new comment");
                                  }
                              });
-                     }
+                    }
                  });
              });
          });

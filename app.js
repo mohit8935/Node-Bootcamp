@@ -94,7 +94,8 @@ app.get("/campgrounds/:id/comments/new", function(req,res){
 
 app.post("/campgrounds/:id/comments", function(req,res){
     var campground_id = req.params.id
-    Campground.findById(campground_id,function(err, campground){
+    console.log(campground_id)
+    Campground.findById(req.params.id,function(err, campground){
         if (err){
             console.log(err)
             res.redirect("/campgrounds")
@@ -102,8 +103,13 @@ app.post("/campgrounds/:id/comments", function(req,res){
             newComment = req.body.comment
             Comment.create(newComment, function(err, newlycomment)
             {
+                if(err){
+                    console.log(err);
+                    console.log("Error")
+                }
                     campground.comments.push(newlycomment);
                     campground.save();
+                    console.log(campground._id);
                     res.redirect('/campgrounds/' + campground._id);
             }); 
         }
