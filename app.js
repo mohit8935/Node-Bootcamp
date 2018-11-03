@@ -2,6 +2,7 @@ var express     = require("express"),
     app         =  express(),
     mongoose    = require('mongoose'),
     bodyParser  = require("body-parser")
+    Campground  = require("./models/campground")
 
 mongoose.connect('mongodb://localhost/campground')
 
@@ -11,15 +12,7 @@ db.once('open', function() {
   // we're connected!
 });
 
-// NEW SCHEMA
 
-var campgroundsSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-
-var Campground = mongoose.model("Campground",campgroundsSchema);
 
 /* campground1 = new Campground({name: "Salmon Creek", image: "https://pixabay.com/get/e837b1072af4003ed1584d05fb1d4e97e07ee3d21cac104491f1c070a1e4b5be_340.jpg", description: "Salmon Creek is located in southwestern Clark County at 45°42′18″N 122°39′41″W (45.704938, -122.661300).[4] It is bordered to the northeast by Mount Vista, to the east by Barberton, to the southeast by Walnut Grove, to the south by Hazel Dell, to the southwest by Lake Shore, and to the west by Felida. Downtown Vancouver is 6 miles (10 km) to the south. According to the United States Census Bureau, the Salmon Creek CDP has a total area of 6.3 square miles (16.4 km2), all of it land"});
 Campground.create(campground1, function(err, newlycreated){
