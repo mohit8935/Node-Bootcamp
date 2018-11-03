@@ -87,13 +87,14 @@ app.post("/campgrounds", function(req,res){
 });
 
 app.get("/campgrounds/:id", function (req,res) {
-    Campground.findById(req.params.id, function(err, foundCampground){
-        if(err) {
-            console.log(err);
-        }
-        else {
-            res.render("show.ejs", {campground: foundCampground});
-        }
-    });
+    var campground_id = req.params.id
+    console.log(campground_id)
+    Campground
+    .findOne({_id: req.params.id}, function (err, foundCampground){
+      res.render("show", 
+      {campground:foundCampground});
+      
+        
+    }); 
     
 });
