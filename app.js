@@ -8,7 +8,7 @@ var express     = require("express"),
 
 seedDB();
 mongoose.connect('mongodb://localhost/campground')
-
+app.use(express.static(__dirname+"/public"))
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -72,12 +72,7 @@ app.get("/campgrounds/:id", function (req,res) {
             res.render("campgrounds/show", 
       {campground:foundCampground});
         }
-       
-      
-      
-        
-    }); 
-    
+    });    
 });
 
 app.get("/campgrounds/:id/comments/new", function(req,res){
@@ -89,7 +84,6 @@ app.get("/campgrounds/:id/comments/new", function(req,res){
             res.render("comments/new", {campground: campground});
         }
     });
-
 });
 
 app.post("/campgrounds/:id/comments", function(req,res){
