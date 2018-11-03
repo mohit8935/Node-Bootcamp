@@ -31,7 +31,7 @@ app.get("/campgrounds", function(req,res){
     if (err){
         console.log(err)
     }else {
-        res.render("index", {campgrounds:allcampgrounds});
+        res.render("campgrounds/index", {campgrounds:allcampgrounds});
     }
    }); 
     
@@ -43,7 +43,7 @@ app.listen(port, function(){
 
 
 app.get("/campgrounds/new", function(req,res){
-    res.render("new.ejs");
+    res.render("campgrounds/new.ejs");
 });
 app.post("/campgrounds", function(req,res){
 
@@ -67,10 +67,46 @@ app.get("/campgrounds/:id", function (req,res) {
     var campground_id = req.params.id
     console.log(campground_id)
     Campground.findById(campground_id).populate("comments").exec(function (err, foundCampground){
-      res.render("show", 
+        if(err){console.log(err)}
+        else{
+            res.render("campgrounds/show", 
       {campground:foundCampground});
+        }
+       
+      
       
         
     }); 
     
 });
+
+app.get("/campgrounds/:id/comments/new", function(req,res){
+    var campground_id = req.params.id
+    Campground.findById(campground_id,function(err, campground){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("comments/new", {campground: campground});
+        }
+    });
+
+});
+
+app.post("/campgrounds/:id/comments", function(req,res){
+    var campground_id = req.params.id
+    Campground.findById(campground_id,function(err, campground){
+        if (err){
+            console.log(err)
+            res.redirect("/campgrounds")
+        } else {
+            newComment = req.body.comment
+            Comment.create(newComment, function(err, newlycomment)
+            {
+                    campground.comments.push(newlycomment);
+                    campground.save();
+                    res.redirect('/campgrounds/' + campground._id);
+            }); 
+        }
+    
+    });
+}); 
