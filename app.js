@@ -1,10 +1,14 @@
-var express     = require("express"),
-    app         =  express(),
-    mongoose    = require('mongoose'),
-    bodyParser  = require("body-parser")
-    Campground  = require("./models/campground")
-    Comment     = require("./models/comment")
-    seedDB      = require("./seeds")
+var express         = require("express"),
+    app             =  express(),
+    mongoose        = require('mongoose'),
+    bodyParser      = require("body-parser")
+    Campground      = require("./models/campground")
+    Comment         = require("./models/comment")
+    seedDB          = require("./seeds")
+    passport        = require("passport")
+    LocalStrategy   = require("passport-local")
+    User            = require("./models/user")
+
 
 seedDB();
 mongoose.connect('mongodb://localhost/campground')
