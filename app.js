@@ -31,6 +31,7 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
 //==================================//
 
 const port = 3000
@@ -145,5 +146,18 @@ app.post("/register", function(req,res){
             res.redirect("/campgrounds")
         });
     });
+
+});
+
+app.get("/login",function (req,res){
+    res.render("login")
+});
+
+app.post("/login", passport.authenticate("local", 
+{
+    successRedirect: "/campgrounds",
+    failureRedirect: "/login"
+
+}),function(req,res){
 
 });

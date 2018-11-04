@@ -1,19 +1,25 @@
 <% include partials/header %>
 <div class="container">
-    <h1>Sign Up for best Services</h1>
+    <h1>Login</h1>
     
     <div class="row">
-            <form action="/register" method="POST">
+     
+            <form action="/login" method="POST">
                 <div class="form-group">
                     <input  class="form-control"type="text" name= "username" placeholder="username">
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="password" name= "password" placeholder="password">
                 </div>
-                <button class="btn btn-lg btn btn-info"> Sign Up</button>
+                <button class="btn btn-lg btn btn-info"> Login</button> <a class="btn btn-primary" href="/register"> Sign Up</a>
             </form>
-          
-            <a href="/campgrounds"> Go back to Campgrounds</a>
+       
+            <div>
+                <br>
+                    
+                    <a href="/campgrounds"> Go back to Campgrounds</a>
+                    
+            </div>
     </div>
     
    
