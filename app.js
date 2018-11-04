@@ -19,6 +19,19 @@ db.once('open', function() {
   // we're connected!
 });
 
+//======Passport Configuration=======//
+app.use(require("express-session")({
+    secret: "Mohit Nihalani is best",
+    resave: false,
+    saveUninitialized: false
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+//==================================//
 
 const port = 3000
 
