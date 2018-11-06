@@ -20,7 +20,7 @@ router.get("/campgrounds", function(req,res){
 router.get("/campgrounds/new", function(req,res){
     res.render("campgrounds/new.ejs");
 });
-router.post("/campgrounds", function(req,res){
+router.post("/campgrounds/", function(req,res){
 
     var name =  req.body.name;
     var image = req.body.image;

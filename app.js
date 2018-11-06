@@ -11,8 +11,8 @@ var express         = require("express"),
 
 var commentRoutes = require("./routes/comments"), 
 campgroundsRoutes = require("./routes/campgrounds"),
-indexRoutes          = require("./routes/index");
-seedDB();
+indexRoutes       = require("./routes/index");
+//seedDB();
 mongoose.connect('mongodb://localhost/campground')
 app.use(express.static(__dirname+"/public"))
 var db = mongoose.connection;
@@ -45,9 +45,11 @@ const port = 3000
 // using bodyparser with Express
 app.use(bodyParser.urlencoded({extended: true}))
 app.set("view engine", "ejs");
+
 app.use(indexRoutes);
 app.use(commentRoutes);
 app.use(campgroundsRoutes);
+
 app.listen(port, function(){
     console.log("The bootcamp server has started")
 });
