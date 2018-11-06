@@ -31,16 +31,21 @@ router.get("/login",function (req,res){
 
 router.post("/login", passport.authenticate("local", 
 {
-    successRedirect: "/campgrounds",
-    failureRedirect: "/login"
-
+    failureFlash: 'Invalid username or password.' 
 }),function(req,res){
+    res.redirect(req.session.returnTo || '/');
+    console.log(req.session);
+    delete req.session.returnTo;
+    console.log(req.session);
+    console.log(req.session.returnTo);
 
 });
 function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
         return next();
     } else
+    req.session.returnTo = req.originalUrl; 
+    console.log(req.session.returnTo)
     res.redirect("/login")
 }
 router.get("/logout", function(req,res){

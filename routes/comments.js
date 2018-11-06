@@ -51,6 +51,8 @@ function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
         return next();
     } else
+    req.session.returnTo = req.originalUrl; 
+    console.log(req.session.returnTo)
     res.redirect("/login")
 }
 

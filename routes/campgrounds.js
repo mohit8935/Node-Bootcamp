@@ -17,10 +17,10 @@ router.get("/campgrounds", function(req,res){
 
 });
 
-router.get("/campgrounds/new", function(req,res){
+router.get("/campgrounds/new", isLoggedIn,function(req,res){
     res.render("campgrounds/new.ejs");
 });
-router.post("/campgrounds/", function(req,res){
+router.post("/campgrounds/", isLoggedIn,function(req,res){
 
     var name =  req.body.name;
     var image = req.body.image;
@@ -50,4 +50,12 @@ router.get("/campgrounds/:id", function (req,res) {
     });    
 });
 
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    } else
+    req.session.returnTo = req.originalUrl; 
+    console.log(req.session.returnTo)
+    res.redirect("/login")
+}
 module.exports = router;
