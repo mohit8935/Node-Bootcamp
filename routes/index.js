@@ -36,8 +36,7 @@ router.post("/login", passport.authenticate("local",
     res.redirect(req.session.returnTo || '/');
     console.log(req.session);
     delete req.session.returnTo;
-    console.log(req.session);
-    console.log(req.session.returnTo);
+    
 
 });
 function isLoggedIn(req,res,next){

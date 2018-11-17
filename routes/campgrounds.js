@@ -24,12 +24,15 @@ router.post("/campgrounds/", isLoggedIn,function(req,res){
 
     var name =  req.body.name;
     var image = req.body.image;
-    var description =  req.body.description
+    var description =  req.body.description;
     var newCampground = new Campground({name: name, image: image, description: description});
     Campground.create(newCampground, function(err, newlycreated){
         if(err){
             console.log(err)
         } else {
+            newCampground.author.id = req.user._id;
+            newCampground.author.username = req.user.username;
+            newCampground.save();
             res.redirect("/campgrounds");
         }
     });
