@@ -2,6 +2,8 @@ var express = require("express");
 var router =  express.Router();
 var passport = require("passport");
 var User =  require("../models/user");
+var Campground = require("../models/campground");
+var Comment = require("../models/comment");
 router.get("/", function(req,res){
     res.render("landing")
 });
@@ -39,6 +41,11 @@ router.post("/login", passport.authenticate("local",
     
 
 });
+router.get("/profile",isLoggedIn,function(req,res){
+    current = req.user.username
+    console.log(current)
+    res.render("users/profile", {current:current})
+});
 function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
         return next();
@@ -51,5 +58,12 @@ router.get("/logout", function(req,res){
     req.logOut();
     res.redirect("/campgrounds");
 })
-
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    } else
+    req.session.returnTo = req.originalUrl; 
+    console.log(req.session.returnTo)
+    res.redirect("/login")
+}
 module.exports = router;
