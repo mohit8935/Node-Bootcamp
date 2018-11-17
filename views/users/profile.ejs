@@ -3,5 +3,24 @@
     This is the profile page
     <div>
         <h2>Hi your nameis <%=current%></h2>
+        <%if(!campgrounds.length){%>
+            <h3>You dont have any campgrounds</h3>
+        <%} else{ %>
+        <h3>Your campground are:</h3>
+        <div class="row" style="display: flex">
+            <% campgrounds.forEach(function(campground){ %>
+                <div class="col-md-3 col-sm-6">
+                    <div class="thumbnail">
+                        <img src="<%= campground.image %>">
+                        <div class="caption" id="info">
+                            <h4> <%= campground.name %></h4>
+                        </div>
+                        
+                        <p>
+                            <a href="/campgrounds/<%=campground._id%>" class="btn btn-primary" id="info"> More Info</a>
+                        </p>
+                    </div>
+                </div>      
+            <%});}%>
     </div>
 </div>

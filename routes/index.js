@@ -42,9 +42,15 @@ router.post("/login", passport.authenticate("local",
 
 });
 router.get("/profile",isLoggedIn,function(req,res){
-    current = req.user.username
-    console.log(current)
-    res.render("users/profile", {current:current})
+    current = req.user.username;
+    Campground.find({'author.username': current },function(err,campgrounds){
+        if(err){
+            console.log(err)
+        }else {
+            res.render("users/profile", {current:current,campgrounds: campgrounds})
+        }
+    });
+    
 });
 function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
